@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Flask App</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .dropdown-container {
+            margin-bottom: 20px; /* Adjust as needed for spacing */
+        }
+
+        #model-select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .upload-btn-container {
+            text-align: center;
+        }
+
+        .top-bar {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .upload-btn-container button {
+            padding: 10px 20px;
+            background-color: #111;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px
+        }
+
+        .submit-btn-container button {
+            padding: 10px 20px;
+            background-image: linear-gradient(to right,
+                                              red,
+                                              orange,
+                                              green,
+                                              blue,
+                                              indigo,
+                                              violet); /* Rainbow colors */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .upload-btn-container button:hover {
+            background-color: #45a049;
+        }
+
+        .video-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px; /* Adjust as needed */
+        }
+
+        video {
+            max-width: 55%; /* Adjust as needed */
+            height: auto;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <h1>Deep Learning for Computer Vision</h1>
+        <h2>Colorforces 🎨💪</h2>
+    </div>
+    <div class="container">
+<!--        <div class="dropdown-container">-->
+<!--            <select name="models" id="model-select">-->
+<!--                <option value="model1">U-Net Architecture</option>-->
+<!--                <option value="model2">Pix2Pix GAN</option>-->
+<!--                &lt;!&ndash; Add more models as needed &ndash;&gt;-->
+<!--            </select>-->
+<!--        </div>-->
+
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <div class="dropdown-container">
+                <select name="model_selection" id="model-select">
+                    <option value="1">U-Net Architecture</option>
+                    <option value="2">U-Net +</option>
+                    <option value="3">Pix2Pix GAN</option>
+                    <!-- Add more models as needed -->
+                </select>
+            </div>
+            <div class="upload-btn-container">
+                <button type="button" id="upload-button">📎 Attach B&W Video 📎</button>
+                <input type="file" id="file-upload" name="file" style="display: none;" onchange="document.getElementById('file-name').textContent = this.files[0].name">
+                <span id="file-name"></span>
+            </div>
+            <div class="submit-btn-container">
+                <input type="submit" id="submit-button" value="Upload!">
+            </div>
+        </form>
+
+        <div class="video-container" id="video-container">
+            <!-- Video will be displayed here -->
+        </div>
+
+    </div>
+</body>
+
+<script>
+    document.getElementById('upload-button').addEventListener('click', function() {
+        document.getElementById('file-upload').click();
+    });
+
+    // document.getElementById('upload-button').addEventListener('click', function() {
+    //     document.getElementById('file-upload').click();
+    // });
+
+    document.getElementById('file-upload').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const videoContainer = document.getElementById('video-container');
+            videoContainer.innerHTML = ''; // Clear any previous video
+
+            const video = document.createElement('video');
+            video.controls = true;
+            video.style.maxWidth = '45%';
+            video.style.height = 'auto';
+
+            const source = document.createElement('source');
+            source.src = URL.createObjectURL(file);
+            source.type = 'video/mp4'; // Adjust the type if necessary
+
+            video.appendChild(source);
+            videoContainer.appendChild(video);
+
+            video.load();
+            video.play();
+        }
+    });
+
+</script>
+
+</html>
